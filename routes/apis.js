@@ -8,6 +8,7 @@ import {
   createReport,
   getDiseaseDetails,
   getHomeDetails,
+  getReelVideos,
   getReportReasons,
   getReportTypes,
   getTrivias,
@@ -22,6 +23,7 @@ router.post("/trivia", getTrivias);
 router.post("/home", getHomeDetailsValidator, getHomeDetails);
 router.post("/disease-details", getDiseaseDetails);
 router.post("/category/videos", getVideosByCatId);
+router.post("/videos", getReelVideos);
 router.post("/disease/videos", getVideosByDiseaseId);
 router.post("/reels/search", reelSearchValidator, searchReels);
 router.post("/report", createReportValidator, createReport);

@@ -247,6 +247,41 @@ export const getDiseaseDetails = async (req, res) => {
   }
 };
 
+export const getReelVideos = async (req, res) => {
+  // #swagger.tags = ["API"]
+  // #swagger.requestBody = {}
+  // #swagger.parameters["last_id"] = { in: 'formData', type: "number", required: true }
+  try {
+    const last_id = req.body.last_id;
+    if (!last_id || isNaN(parseInt(last_id))) {
+      return res.status(200).json({
+        result: 0,
+        resultData: null,
+        message: "last_id is required",
+      });
+    }
+
+    const videos = await VideoGallery.getReelVideos(last_id);
+    const formattedVideos = videos.map((value) => ({
+      ...value,
+      video: `${process.env.SERVER}/public/diseases/${value.disease_id}/videos/${value.video}`,
+      thumbnail_image: `${process.env.SERVER}/public/diseases/${value.disease_id}/thumbnails/${value.thumbnail_image}`,
+    }));
+    res.status(200).json({
+      result: 1,
+      resultData: formattedVideos,
+      message: "Data fetched successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(200).json({
+      result: 0,
+      resultData: null,
+      message: "Internal Server Error",
+    });
+  }
+};
+
 export const getVideosByCatId = async (req, res) => {
   // #swagger.tags = ["API"]
   // #swagger.requestBody = {}

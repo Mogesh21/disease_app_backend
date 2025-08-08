@@ -139,6 +139,17 @@ const VideoGallery = {
       throw err;
     }
   },
+
+  getReelVideos: async (last_id = 0) => {
+    try {
+      const query =
+        "SELECT id, disease_id, name, video, thumbnail_image, description from video_gallery WHERE id > ?";
+      const [result] = await db.query(query, [last_id]);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  },
 };
 
 export default VideoGallery;
