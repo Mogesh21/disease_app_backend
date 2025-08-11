@@ -3,7 +3,7 @@ import db from "../config/db.js";
 const Disease = {
   getDiseaseInfo: async (disease_id = 0, limit = 500) => {
     try {
-      const query = `SELECT id, cat_id, name FROM diseases WHERE id > ? LIMIT ?`;
+      const query = `SELECT d.id, d.cat_id, d.name FROM diseases d LEFT JOIN categories c ON d.cat_id = c.id WHERE d.id > ? AND c.status = 1 LIMIT ?`;
       const [result] = await db.query(query, [disease_id, limit]);
       return result;
     } catch (err) {

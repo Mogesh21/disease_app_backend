@@ -34,7 +34,7 @@ const tempStorage = multer.diskStorage({
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
       const dir = `public/diseases/${id}`;
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       cb(null, dir);

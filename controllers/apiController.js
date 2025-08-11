@@ -145,7 +145,8 @@ export const getHomeDetails = async (req, res) => {
     const data = req.body;
     const limit = 300;
     const categories = await Category.getCategories(data.last_cat_id, limit);
-    const formattedCategories = categories.map((category) => {
+    const filteredCategories = categories.filter((category) => category.status === 1);
+    const formattedCategories = filteredCategories.map((category) => {
       delete category.status;
       return {
         ...category,

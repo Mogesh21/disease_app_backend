@@ -3,7 +3,6 @@ import fs from "fs";
 
 const removeFile = (name, folder = "") => {
   const file = path.join(process.cwd(), "public", folder, name);
-  console.log(file);
   if (fs.existsSync(file)) {
     fs.rmSync(file);
   }
