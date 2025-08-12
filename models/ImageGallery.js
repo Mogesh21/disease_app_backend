@@ -76,6 +76,21 @@ const ImageGallery = {
       throw err;
     }
   },
+
+  deleteImageById: async (id) => {
+    try {
+      const fetchQuery = "SELECT disease_id, image from image_gallery WHERE id = ?";
+      const [data] = await db.query(fetchQuery, [id]);
+      const query = "DELETE FROM image_gallery WHERE id = ?";
+      const [result] = await db.query(query, [id]);
+      if (result.affectedRows > 0) {
+        return data;
+      }
+      return [];
+    } catch (err) {
+      throw err;
+    }
+  },
 };
 
 export default ImageGallery;

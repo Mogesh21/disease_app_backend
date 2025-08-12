@@ -5,7 +5,7 @@
     "description": "Auto-generated Swagger UI for Disease Dictionary",
     "version": "1.0.0"
   },
-  "host": "diseasedictionary.skyraantech.com/server",
+  "host": "localhost:8030",
   "basePath": "/",
   "tags": [
     {
@@ -38,7 +38,7 @@
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/categories/": {
@@ -1180,6 +1180,28 @@
         "requestBody": {}
       }
     },
+    "/api/videos": {
+      "post": {
+        "tags": [
+          "API"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "last_id",
+            "in": "formData",
+            "type": "number",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {}
+      }
+    },
     "/api/disease/videos": {
       "post": {
         "tags": [
@@ -1273,7 +1295,8 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "requestBody": {}
       }
     },
     "/api/report-types": {

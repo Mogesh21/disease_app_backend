@@ -5,9 +5,9 @@ const doc = {
     title: "Disease Dictionary",
     description: "Auto-generated Swagger UI for Disease Dictionary",
   },
-  // host: "localhost:8030",
-  host: "diseasedictionary.skyraantech.com/server",
-  schemes: ["https"],
+  host: "localhost:8030",
+  // host: "diseasedictionary.skyraantech.com/server",
+  schemes: ["http"],
   tags: [
     {
       name: "API",

@@ -47,7 +47,7 @@ const fileFilter = (req, file, cb) => {
 
 const category = multer({
   storage: storage,
-  fileSize: 5 * 1024 * 1024,
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: fileFilter,
 });
 

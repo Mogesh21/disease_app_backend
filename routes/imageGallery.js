@@ -47,6 +47,7 @@ const fileFilter = (req, file, cb) => {
 
 const imageGallery = multer({
   storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: fileFilter,
 });
 
@@ -92,7 +93,7 @@ router.post(
 );
 
 router.use(async (err, req, res, next) => {
-  console.log(err)
+  console.log(err);
   res.status(400).json({
     message: "Invalid File Format",
   });

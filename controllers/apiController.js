@@ -5,11 +5,14 @@ import Category from "../models/Category.js";
 import Disease from "../models/Disease.js";
 import ImageGallery from "../models/ImageGallery.js";
 import VideoGallery from "../models/VideoGallery.js";
+import removeFile from "../utils/removeFile.js";
+import fs from "fs";
 
 const categoryImagePath = `${process.env.SERVER}/public/categories`;
 
 export const createReport = async (req, res) => {
   // #swagger.tags= ["API"]
+  // #swagger.requestBody = {}
   // #swagger.parameters['type_id'] = { in: "formData", required: true, type: "number"}
   // #swagger.parameters['content_id'] = { in: "formData", required: true,  type: "number"}
   // #swagger.parameters['reason_id'] = { in: "formData", required: true,  type: "number"}
@@ -25,15 +28,44 @@ export const createReport = async (req, res) => {
       });
     }
     const data = req.body;
-    const id = await Report.createReport(data);
-    if (id) {
+    const reportCount = await Report.getReportCount(data.type_id, data.content_id);
+    if (reportCount >= 4) {
+      if (parseInt(data.type_id) === 1) {
+        const [video] = await VideoGallery.deleteVideoById(data.content_id);
+        removeFile(video.video, `diseases/${video.disease_id}/videos`);
+        removeFile(video.thumbnail_image, `diseases/${video.disease_id}/thumbnails`);
+      } else if (parseInt(data.type_id) === 2) {
+        await ImageGallery.deleteImagesByDiseaseId(data.content_id);
+        await VideoGallery.deleteVideosByDiseaseId(data.content_id);
+        const result = await Disease.deleteDisease(data.content_id);
+        if (result !== 0) {
+          fs.rmSync(`public/diseases/${data.content_id}`, { recursive: true });
+        }
+      } else if (parseInt(data.type_id) === 3) {
+        const [image] = await ImageGallery.deleteImageById(data.content_id);
+        if (image) {
+          removeFile(image.image, `diseases/${image.disease_id}/images`);
+        }
+      }
+
+      const reports_deleted = await Report.deleteMultipleReports(data.type_id, data.content_id);
+
       res.status(200).json({
         result: 1,
-        resultData: {
-          id: id,
-        },
+        resultData: {},
         message: "report submitted successfully",
       });
+    } else {
+      const report_id = await Report.createReport(data);
+      if (report_id) {
+        res.status(200).json({
+          result: 1,
+          resultData: {
+            id: report_id,
+          },
+          message: "report submitted successfully",
+        });
+      }
     }
   } catch (err) {
     console.log(err);

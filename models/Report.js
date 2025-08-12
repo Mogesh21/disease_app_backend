@@ -32,6 +32,17 @@ const Report = {
     }
   },
 
+  getReportCount: async (type_id, content_id) => {
+    try {
+      const query = "SELECT COUNT(*) as count from reports WHERE type_id = ? AND content_id = ?";
+      const [result] = await db.query(query, [type_id, content_id]);
+      const { count } = result[0];
+      return count;
+    } catch (err) {
+      throw err;
+    }
+  },
+
   createReport: async ({ type_id, content_id, reason_id, device_id, reason = "" }) => {
     try {
       const query = `INSERT INTO reports (type_id, content_id, reason_id, device_id, reason) VALUES
@@ -64,6 +75,16 @@ const Report = {
     try {
       const query = "DELETE FROM reports WHERE id = ?";
       const [result] = await db.query(query, [id]);
+      return result.affectedRows;
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  deleteMultipleReports: async (type_id, content_id) => {
+    try {
+      const query = "DELETE FROM reports WHERE type_id = ? AND content_id = ?";
+      const [result] = await db.query(query, [type_id, content_id]);
       return result.affectedRows;
     } catch (err) {
       throw err;

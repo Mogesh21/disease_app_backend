@@ -101,6 +101,22 @@ const VideoGallery = {
     }
   },
 
+  deleteVideoById: async (id) => {
+    try {
+      const fetchQuery =
+        "SELECT disease_id, video, thumbnail_image from video_gallery WHERE id = ?";
+      const [data] = await db.query(fetchQuery, [id]);
+      const query = "DELETE FROM video_gallery WHERE id = ?";
+      const [result] = await db.query(query, [id]);
+      if (result.affectedRows > 0) {
+        return data;
+      }
+      return [];
+    } catch (err) {
+      throw err;
+    }
+  },
+
   searchVideo: async (search, cat_ids) => {
     try {
       let query = "";
