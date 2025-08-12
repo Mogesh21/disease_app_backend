@@ -47,7 +47,7 @@ const fileFilter = (req, file, cb) => {
 
 const imageGallery = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 200 * 1024 },
   fileFilter: fileFilter,
 });
 

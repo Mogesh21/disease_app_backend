@@ -54,12 +54,12 @@ const storage = multer.diskStorage({
 
 const diseaseTemp = multer({
   storage: tempStorage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 200 * 1024 },
 });
 
 const disease = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 200 * 1024 },
 });
 
 router.get("/", getDiseases);
